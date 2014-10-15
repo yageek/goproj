@@ -22,3 +22,15 @@ _testmain.go
 *.exe
 *.test
 *.prof
+
+
+# Latex tmp
+
+*.aux
+*.idx
+*.log
+*.nlo
+*.out
+*.pdf
+*.synctex.gz
+*.toc
