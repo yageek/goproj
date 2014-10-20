@@ -16,9 +16,6 @@ type EllipseGeodetic struct {
 // This constants are defined for the GeocentricToGeodetic method
 const (
 	AD_C_Z1 = 1.0026000
-	AD_C_Z2 = 1.00092592
-	AD_C_Z3 = 0.999250297
-	AD_C_Z4 = 0.997523508
 )
 
 // GeocentricToGeodetic converts the point's coordintates
@@ -34,12 +31,35 @@ func (eg *EllipseGeodetic) GeocentricToGeodetic(point *Point) *Point {
 	var lat float64
 	var long float64
 
-	point.x
+	x := point.X
+	y := point.Y
+	z := point.Z
 
-	long = math.Atan2(point.y, point.x)
+	a := eg.ellipseParam.SemiMajorAxis
+	c := eg.ellipseParam.SemiMinorAxis
+	e2 := eg.ellipseParam.Excentricity2
 
-	w2 := math.Pow(point.x, 2) + math.Pow(point.y, 2)
+	long = math.Atan2(y, x)
 
+	// step 1
+	w2 := math.Pow(x, 2) + math.Pow(y, 2)
+	w := math.Sqrt(w2)
+
+	//step 3
+	t0 := AD_C_Z1
+
+	//step 4
+	s0 := math.Sqrt(math.Pow(AD_C_Z1, 2) + w2)
+
+	//step 5
+	sinB0 := t0 / s0
+	cosB0 := W / s0
+
+	//step 6
+	t1 := z + c*e2*math.Pow(sinB0, 3)
+
+	//step 7
+	//s1_2 := math.Pow(t1, 2) + math.Pow(x, y)
 	point.x = long
 	point.y = lat
 
