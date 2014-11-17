@@ -1,6 +1,7 @@
-package core
+package datum
 
 import (
+	. "github.com/yageek/goproj/core"
 	"math"
 )
 
