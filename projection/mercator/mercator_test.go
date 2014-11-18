@@ -21,7 +21,7 @@ type SnyderValue struct {
 	K   float64
 }
 
-func TestForward(t *testing.T) {
+func TestSphereForward(t *testing.T) {
 
 	test := SnyderTest{}
 	data, _ := ioutil.ReadFile("sphere_forward.json")
@@ -30,6 +30,26 @@ func TestForward(t *testing.T) {
 	datum := &Datum{CentralMeridien: 0.0}
 
 	sp := &SphereProjection{Radius: test.R}
+
+	for _, testcase := range test.Tests {
+		_, y := sp.Forward(test.X, testcase.Phi*math.Pi/180.0, datum)
+
+		if math.Abs(y-testcase.Y) > test.Delta {
+			t.Errorf("Failed with Phi:%.6f | Expected: %.6f | Computed: %.6f | Delta: %f\n", testcase.Phi, testcase.Y, y, test.Delta)
+		}
+	}
+
+}
+
+func TestEllipseForward(t *testing.T) {
+
+	test := SnyderTest{}
+	data, _ := ioutil.ReadFile("ellipse_forward.json")
+	json.Unmarshal(data, &test)
+
+	datum := &Datum{CentralMeridien: 0.0}
+
+	sp := &EllipseProjection{}
 
 	for _, testcase := range test.Tests {
 		_, y := sp.Forward(test.X, testcase.Phi*math.Pi/180.0, datum)
