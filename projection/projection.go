@@ -8,4 +8,5 @@ import . "github.com/yageek/goproj/datum"
 // Reverse represents the transition from  map coordinates to geographic (meters -> rad)
 type Projection interface {
 	Forward(lambda, phi float64, datum *Datum) (x, y float64)
+	Inverse(x, y float64, datum *Datum) (lambda, phi float64)
 }
