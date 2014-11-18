@@ -1,10 +1,11 @@
 package projection
 
-// Represents a projection from a datum to a plane map
+import . "github.com/yageek/goproj/datum"
+
+// Represents a projection from a datum to a map
 //
-// Project represents the transition from geographic to map coordinates
-// Reverse represents the transition from  map coordinates to geographic
+// Project represents the transition from geographic to map coordinates (rad -> meters)
+// Reverse represents the transition from  map coordinates to geographic (meters -> rad)
 type Projection interface {
-	Project(lambda, pi) (x, y, float64)
-	Reverse(x, y float64) (lambda, phi float64)
+	Forward(lambda, phi float64, datum *Datum) (x, y float64)
 }

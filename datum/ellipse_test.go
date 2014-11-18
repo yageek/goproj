@@ -30,11 +30,11 @@ func init() {
 func TestEllipseParametersCreations(t *testing.T) {
 	for _, params := range ellipsesTested {
 
-		var out *EllipseParameters
+		var out *Ellipse
 		if params.B < 0 {
-			out = NewEllipseParametersWithFlattening(params.A, params.F)
+			out = NewEllipseWithFlattening(params.A, params.F)
 		} else {
-			out = NewEllipseParametersWithSemiAxis(params.A, params.B)
+			out = NewEllipseWithSemiAxis(params.A, params.B)
 		}
 
 		if params.B < 0 && math.Abs(params.OB-out.SemiMinorAxis) > AXIS_DELTA {

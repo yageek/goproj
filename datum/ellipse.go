@@ -5,7 +5,7 @@ import (
 )
 
 //The informations contained in an Ellipse
-type EllipseParameters struct {
+type Ellipse struct {
 	SemiMajorAxis float64
 	SemiMinorAxis float64
 	Flattening    float64
@@ -13,8 +13,8 @@ type EllipseParameters struct {
 	Excentricity2 float64
 }
 
-func NewEllipseParametersWithSemiAxis(a float64, b float64) *EllipseParameters {
-	p := new(EllipseParameters)
+func NewEllipseWithSemiAxis(a float64, b float64) *Ellipse {
+	p := new(Ellipse)
 
 	p.SemiMajorAxis = a
 	p.SemiMinorAxis = b
@@ -26,8 +26,8 @@ func NewEllipseParametersWithSemiAxis(a float64, b float64) *EllipseParameters {
 	return p
 }
 
-func NewEllipseParametersWithFlattening(a float64, f float64) *EllipseParameters {
-	p := new(EllipseParameters)
+func NewEllipseWithFlattening(a float64, f float64) *Ellipse {
+	p := new(Ellipse)
 
 	p.SemiMajorAxis = a
 	p.Flattening = f

@@ -1,13 +1,10 @@
 package mercator
 
-import (
-	"math"
-)
-
 type Mercator struct {
-	k float64 //Scale point
 }
 
-func (m *Mercator) Project(lambda, phi float64) (x, y float64) {
+func (e *Mercator) Forward(lambda, phi float64, datum *Datum) (x, y float64) {
 
+	x = datum.Ellipsoid.SemiMajorAxis * (lambda - datum.Ellipsoid.CentralMeridien)
+	y = 
 }
