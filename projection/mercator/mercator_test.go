@@ -24,8 +24,11 @@ type SnyderValue struct {
 func TestSphereForward(t *testing.T) {
 
 	test := SnyderTest{}
-	data, _ := ioutil.ReadFile("sphere_forward.json")
-	json.Unmarshal(data, &test)
+	data, _ := ioutil.ReadFile("sphere_values.json")
+	err := json.Unmarshal(data, &test)
+	if err != nil {
+		t.Error(err)
+	}
 
 	datum := &Datum{CentralMeridien: 0.0}
 
@@ -40,13 +43,15 @@ func TestSphereForward(t *testing.T) {
 	}
 
 }
-
-func TestEllipseForward(t *testing.T) {
-
+func TestHello(t *testing.T) {
 	test := SnyderTest{}
-	data, _ := ioutil.ReadFile("ellipse_forward.json")
-	json.Unmarshal(data, &test)
+	data, _ := ioutil.ReadFile("ellipse_values.json")
 
+	err := json.Unmarshal(data, &test)
+
+	if err != nil {
+		t.Error(err)
+	}
 	datum := &Datum{CentralMeridien: 0.0}
 
 	sp := &EllipseProjection{}
@@ -58,5 +63,4 @@ func TestEllipseForward(t *testing.T) {
 			t.Errorf("Failed with Phi:%.6f | Expected: %.6f | Computed: %.6f | Delta: %f\n", testcase.Phi, testcase.Y, y, test.Delta)
 		}
 	}
-
 }
