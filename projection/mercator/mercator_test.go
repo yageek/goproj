@@ -43,7 +43,7 @@ func TestSphereForward(t *testing.T) {
 	}
 
 }
-func TestHello(t *testing.T) {
+func TestEllipseForward(t *testing.T) {
 	test := SnyderTest{}
 	data, _ := ioutil.ReadFile("ellipse_values.json")
 
