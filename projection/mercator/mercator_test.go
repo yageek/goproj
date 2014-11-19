@@ -35,11 +35,19 @@ func TestSphereForward(t *testing.T) {
 	sp := &SphereProjection{Radius: test.R}
 
 	for _, testcase := range test.Tests {
-		_, y := sp.Forward(test.X, testcase.Phi*math.Pi/180.0, datum)
+		phi := testcase.Phi * math.Pi / 180.0
+		_, y := sp.Forward(test.X, phi, datum)
 
 		if math.Abs(y-testcase.Y) > test.Delta {
 			t.Errorf("Failed with Phi:%.6f | Expected: %.6f | Computed: %.6f | Delta: %f\n", testcase.Phi, testcase.Y, y, test.Delta)
 		}
+
+		k := sp.ScaleFactor(0, phi)
+
+		if math.Abs(k-testcase.K) > test.Delta {
+			t.Errorf("Failed K for Phi: %.6f | Expected:%.6f | Computed:%.6f\n", testcase.Phi, testcase.K, k)
+		}
+
 	}
 
 }
@@ -52,15 +60,24 @@ func TestEllipseForward(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	datum := &Datum{CentralMeridien: 0.0}
+
+	ellipsoid := NewEllipseWithSemiAxis(1, 1)
+	datum := &Datum{CentralMeridien: 0.0, Ellipsoid: ellipsoid}
 
 	sp := &EllipseProjection{}
 
 	for _, testcase := range test.Tests {
-		_, y := sp.Forward(test.X, testcase.Phi*math.Pi/180.0, datum)
+		phi := testcase.Phi * math.Pi / 180.0
+		_, y := sp.Forward(test.X, phi, datum)
 
 		if math.Abs(y-testcase.Y) > test.Delta {
 			t.Errorf("Failed with Phi:%.6f | Expected: %.6f | Computed: %.6f | Delta: %f\n", testcase.Phi, testcase.Y, y, test.Delta)
+		}
+
+		k := sp.ScaleFactor(0, phi)
+
+		if math.Abs(k-testcase.K) > test.Delta {
+			t.Errorf("Failed K for Phi: %.6f | Expected:%.6f | Computed:%.6f\n", testcase.Phi, testcase.K, k)
 		}
 	}
 }

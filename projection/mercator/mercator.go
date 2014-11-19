@@ -23,6 +23,10 @@ func (s *SphereProjection) Inverse(x, y float64, datum *Datum) (lambda, phi floa
 	return
 }
 
+func (s *SphereProjection) ScaleFactor(lamdba, phi float64) float64 {
+	return 1.0 / math.Cos(phi)
+}
+
 type EllipseProjection struct {
 }
 
