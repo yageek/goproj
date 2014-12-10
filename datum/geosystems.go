@@ -1,7 +1,7 @@
 package datum
 
 import (
-	. "github.com/yageek/goproj/point"
+	. "github.com/go-gis/goproj/point"
 	"math"
 )
 

@@ -2,8 +2,8 @@
 package mercator
 
 import (
-	. "github.com/yageek/goproj/datum"
-	. "github.com/yageek/goproj/math"
+	. "github.com/go-gis/goproj/datum"
+	. "github.com/go-gis/goproj/math"
 	"math"
 )
 

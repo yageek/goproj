@@ -1,6 +1,6 @@
 package projection
 
-import . "github.com/yageek/goproj/datum"
+import . "github.com/go-gis/goproj/datum"
 
 // Represents a projection from a datum to a map
 //

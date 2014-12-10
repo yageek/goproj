@@ -2,7 +2,7 @@ package mercator
 
 import (
 	"encoding/json"
-	. "github.com/yageek/goproj/datum"
+	. "github.com/go-gis/goproj/datum"
 	"io/ioutil"
 	"math"
 	"testing"
