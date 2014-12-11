@@ -38,3 +38,23 @@ func NewEllipsoidWithFlattening(a float64, f float64) *Ellipsoid {
 
 	return p
 }
+
+type EpsgEllipsoid struct {
+	*Ellipsoid
+	Name string
+	Epsg int
+}
+
+func NewEpsgEllipsoidWithSemiAxis(name string, epsg int, a float64, b float64) *EpsgEllipsoid {
+	ellipsoid := &EpsgEllipsoid{Name: name, Epsg: epsg}
+
+	ellipsoid.Ellipsoid = NewEllipsoidWithSemiAxis(a, b)
+	return ellipsoid
+}
+
+func NewEpsgEllipsoidWithFlattening(name string, epsg int, a float64, f float64) *EpsgEllipsoid {
+	ellipsoid := &EpsgEllipsoid{Name: name, Epsg: epsg}
+
+	ellipsoid.Ellipsoid = NewEllipsoidWithFlattening(a, f)
+	return ellipsoid
+}
