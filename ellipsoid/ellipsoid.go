@@ -1,3 +1,6 @@
+//This package manages the ellipsoid
+//go:generate go run generator/generator.go
+//go:generate gofmt -w ellipsoid_index.go
 package ellipsoid
 
 import (
@@ -46,15 +49,9 @@ type EpsgEllipsoid struct {
 }
 
 func NewEpsgEllipsoidWithSemiAxis(name string, epsg int, a float64, b float64) *EpsgEllipsoid {
-	ellipsoid := &EpsgEllipsoid{Name: name, Epsg: epsg}
-
-	ellipsoid.Ellipsoid = NewEllipsoidWithSemiAxis(a, b)
-	return ellipsoid
+	return &EpsgEllipsoid{Name: name, Epsg: epsg, Ellipsoid: NewEllipsoidWithSemiAxis(a, b)}
 }
 
 func NewEpsgEllipsoidWithFlattening(name string, epsg int, a float64, f float64) *EpsgEllipsoid {
-	ellipsoid := &EpsgEllipsoid{Name: name, Epsg: epsg}
-
-	ellipsoid.Ellipsoid = NewEllipsoidWithFlattening(a, f)
-	return ellipsoid
+	return &EpsgEllipsoid{Name: name, Epsg: epsg, Ellipsoid: NewEllipsoidWithFlattening(a, f)}
 }

@@ -11,12 +11,26 @@ import (
 	"time"
 )
 
+const templateString = `// Auto-generated data - DO NOT EDIT
+// Data retrieved from {{.DataURL}} on {{.Date}}
+package ellipsoid
+
+var datexCollection =[...]*EpsgEllipsoid{
+{{range .Collection}}
+ {{if eq .SemiMinorAxis 0.0}}
+ 	NewEpsgEllipsoidWithFlattening("{{.Name}}", {{.EPSG}}, {{printf "%f" .SemiMajorAxis}}, {{printf "%f" .InverseFlattening}} ),
+ {{else}}
+ 	 NewEpsgEllipsoidWithSemiAxis( "{{.Name}}", {{.EPSG}}, {{printf "%f" .SemiMajorAxis}}, {{printf "%f" .SemiMinorAxis}} ) ,
+ {{end}}
+{{end}}
+}`
+
 const DatexURI = "http://go-datex.appsdeck.eu"
 
 type EllipsoidCollection []datex.Ellipsoid
 
 type EllipsoidGeneratorData struct {
-	Collection *EllipsoidCollection
+	Collection EllipsoidCollection
 	Date       time.Time
 	DataURL    string
 }
@@ -34,23 +48,25 @@ func main() {
 	defer resp.Body.Close()
 
 	data, _ := ioutil.ReadAll(resp.Body)
+	log.Println("Data:", string(data))
+	generatorData := &EllipsoidGeneratorData{Date: time.Now(), DataURL: DatexURI}
 
-	generatorData := &EllipsoidGeneratorData{Collection: &EllipsoidCollection{}, Date: time.Now(), DataURL: DatexURI}
+	var collection []datex.Ellipsoid
+	err = json.Unmarshal(data, &collection)
 
-	err = json.Unmarshal(data, generatorData.Collection)
-
+	log.Println("Data:", collection)
 	if err != nil {
 		log.Fatalln("Could not unmarshal ellipsoids:", err)
 	}
 
-	file, err := os.Create("../ellipsoid_index.go")
+	file, err := os.Create("ellipsoid_index.go")
 	if err != nil {
 		log.Fatalln("Could not open file:", err)
 	}
 
 	defer file.Close()
 
-	goTmpl, err := template.ParseFiles("ellipsoid.tmpl")
+	goTmpl, err := template.New("index").Parse(templateString)
 
 	if err != nil {
 		log.Fatalln("Invalid template:", err)
