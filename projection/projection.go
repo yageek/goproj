@@ -9,5 +9,4 @@ import . "github.com/yageek/goproj/datum"
 type Projection interface {
 	Forward(lambda, phi float64, datum *Datum) (x, y float64)
 	Inverse(x, y float64, datum *Datum) (lambda, phi float64)
-	ScaleFactor(lamdba, phi float64) float64
 }
