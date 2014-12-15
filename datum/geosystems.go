@@ -1,6 +1,7 @@
 package datum
 
 import (
+	. "github.com/go-gis/goproj/ellipsoid"
 	. "github.com/go-gis/goproj/point"
 	"math"
 )
@@ -11,7 +12,7 @@ type GeodeticSystem interface {
 }
 
 type EllipseGeodetic struct {
-	ellipseParam *Ellipse
+	ellipseParam *Ellipsoid
 }
 
 // This constants are defined for the GeocentricToGeodetic method
