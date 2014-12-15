@@ -2,7 +2,7 @@ package mercator
 
 import (
 	"encoding/json"
-	. "github.com/go-gis/goproj/datum"
+	"github.com/go-gis/goproj/core"
 	"io/ioutil"
 	"math"
 	"testing"
@@ -30,7 +30,7 @@ func TestSphereForward(t *testing.T) {
 		t.Error(err)
 	}
 
-	datum := &Datum{CentralMeridien: 0.0}
+	datum := &core.Datum{CentralMeridien: 0.0}
 
 	sp := &SphereProjection{Radius: test.R}
 
@@ -62,7 +62,7 @@ func TestEllipseForward(t *testing.T) {
 	}
 
 	ellipsoid := NewEllipseWithSemiAxis(1, 1)
-	datum := &Datum{CentralMeridien: 0.0, Ellipsoid: ellipsoid}
+	datum := &core.Datum{CentralMeridien: 0.0, Ellipsoid: ellipsoid}
 
 	sp := &EllipseProjection{}
 

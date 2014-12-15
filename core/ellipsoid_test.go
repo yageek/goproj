@@ -1,4 +1,4 @@
-package ellipsoid
+package core
 
 import (
 	"math"

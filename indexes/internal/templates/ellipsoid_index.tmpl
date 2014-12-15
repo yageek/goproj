@@ -1,0 +1,29 @@
+// Data retrieved from {{.DataURL}} on {{.Date}}
+package indexes
+
+import (
+	"github.com/go-gis/goproj/core"
+	"github.com/go-gis/goproj/indexes/internal"
+)
+
+var ellipsoidIndex *internal.EpsgIndex
+
+func init() {
+	ellipsoidIndex = internal.NewIndex()
+
+	var el *core.Ellipsoid
+	{{range .Collection}}
+	//{{.Name}}
+ {{if eq .SemiMinorAxis 0.0}}
+    el = core.NewEllipsoidWithInverseFlattening({{printf "%f" .SemiMajorAxis}}, {{printf "%f" .InverseFlattening}} )
+ {{else}}
+      el = core.NewEllipsoidWithSemiAxis({{printf "%f" .SemiMajorAxis}}, {{printf "%f" .SemiMinorAxis}} )
+ {{end}}
+ 	ellipsoidIndex.AddEntry("{{.Name}}", {{.EPSG}}, el)
+{{end}}
+	
+}
+
+func EllipsoidIndex() *internal.EpsgIndex{
+	return ellipsoidIndex
+}
