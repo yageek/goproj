@@ -1,8 +1,8 @@
 package datum
 
 import (
-	. "github.com/go-gis/goproj/ellipsoid"
-	. "github.com/go-gis/goproj/point"
+	. "github.com/go-gis/goproj/core/ellipsoid"
+	. "github.com/go-gis/goproj/core/point"
 	"math"
 )
 

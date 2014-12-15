@@ -1,6 +1,6 @@
 package datum
 
-import "github.com/go-gis/goproj/ellipsoid"
+import "github.com/go-gis/goproj/core/ellipsoid"
 
 type Datum struct {
 	CentralMeridien float64
