@@ -1,0 +1,23 @@
+// Data retrieved from {{.DataURL}} on {{.Date}}
+package indexes
+
+import (
+	"github.com/go-gis/goproj/core"
+	"github.com/go-gis/goproj/indexes/internal"
+)
+
+var meridianIndex *internal.EpsgIndex
+
+func init() {
+	meridianIndex = internal.NewIndex()
+
+	{{range .Collection}}
+	//{{.Name}}
+ 	meridianIndex.AddEntry("{{.Name}}", {{.EPSG}}, {{.GreenwichLongitude}})
+	{{end}}
+	
+}
+
+func MeridianIndex() *internal.EpsgIndex{
+	return meridianIndex
+}

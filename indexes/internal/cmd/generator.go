@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"flag"
 	"github.com/go-gis/datex/handlers/ellipsoid"
+	"github.com/go-gis/datex/handlers/meridian"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -19,7 +20,7 @@ var dataType string
 
 const DatexURI = "http://go-datex.appsdeck.eu"
 
-type EllipsoidGeneratorData struct {
+type GeneratorData struct {
 	Collection interface{}
 	Date       time.Time
 	DataURL    string
@@ -38,7 +39,7 @@ func main() {
 		log.Fatalln("No template string, type or output filename are not provided")
 	}
 	client := http.Client{}
-
+	log.Println("Generate indexes for type:", dataType)
 	resp, err := client.Get(DatexURI + "/" + strings.ToLower(dataType) + "/all")
 
 	if err != nil {
@@ -49,11 +50,15 @@ func main() {
 
 	data, _ := ioutil.ReadAll(resp.Body)
 
-	generatorData := &EllipsoidGeneratorData{Date: time.Now(), DataURL: DatexURI}
+	generatorData := &GeneratorData{Date: time.Now(), DataURL: DatexURI}
 
 	var collection interface{}
 	switch dataType {
 	default:
+	case "Meridian":
+		conteneur := make([]meridian.Meridian, 1)
+		err = json.Unmarshal(data, &conteneur)
+		collection = conteneur
 	case "Ellipsoid":
 		conteneur := make([]ellipsoid.Ellipsoid, 1)
 		err = json.Unmarshal(data, &conteneur)
